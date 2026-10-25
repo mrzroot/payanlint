@@ -1,0 +1,23 @@
+name: False positive / wrong output
+description: A finding, or a typing fix that changed the wrong thing
+labels: [false-positive]
+body:
+  - type: markdown
+    attributes:
+      value: "Please use an invented or short public sentence. Never paste a real thesis."
+  - type: input
+    id: version
+    attributes: {label: payanlint version}
+    validations: {required: true}
+  - type: input
+    id: code
+    attributes: {label: Finding code, placeholder: "P110, F207 ..."}
+    validations: {required: true}
+  - type: textarea
+    id: text
+    attributes: {label: The text or a minimal document description (invented or public)}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: What should happen instead, and why}
+    validations: {required: true}

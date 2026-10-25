@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use payanlint, please cite it as below."
+title: "payanlint: an offline linter for the typing and Word formatting of a Persian thesis"
+type: software
+version: 0.1.0
+date-released: 2026-10-24
+license: MIT
+repository-code: "https://github.com/mrzroot/payanlint"
+url: "https://mrzroot.github.io/payanlint/"
+authors:
+  - family-names: Zare
+    given-names: Mohammadreza
+keywords:
+  - persian
+  - farsi
+  - thesis
+  - docx
+  - zwnj
+  - linter
+abstract: "Offline, dependency-free command-line linter for a Persian .docx: half-spaces, Arabic letters, digit sets, punctuation, and the font, size, bold, margins, captions and page numbers Word keeps underneath. Writes a safe fix to a copy; heuristics, not an official validator."
