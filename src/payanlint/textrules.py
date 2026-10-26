@@ -160,7 +160,7 @@ def scan(T: str, digits: str = "keep", persian: Optional[bool] = None) -> List[F
     out: List[Fix] = []
     last = -1
     for f in fx:
-        if f.start < last or (f.start == f.end and f.start == last and False):
+        if f.start < last:
             continue
         out.append(f)
         last = max(last, f.end, f.start)
