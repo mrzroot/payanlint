@@ -115,7 +115,6 @@ def analyse(doc: Document, opt: Optional[Options] = None) -> List[Finding]:
 
     # ------------------------------------------------------------------ text rules
     groups: Dict[str, Finding] = {}
-    ctr: Counter = Counter()
     PARAS: Dict[str, set] = {}
     META = {
         "P101": ("error", "Arabic ي / ك / ى used instead of Persian ی / ک", "Arabic and Persian letters look alike but are different characters: search, sorting, the TOC index and plagiarism checkers treat them differently, and most universities reject them.", "payanlint --fix replaces them (letters only; vocalised Arabic text is skipped)."),
@@ -197,7 +196,6 @@ def analyse(doc: Document, opt: Optional[Options] = None) -> List[Finding]:
                                "Set the font for Persian text in the Normal style (Font dialog → «Complex scripts»).",
                                count=len(missing), paragraphs=[p.idx + 1 for p in missing][:30],
                                examples=[{"where": where(p), "before": _zw(p.text[:50]), "after": ""} for p in missing[:3]]))
-        fonts = prof["_cs"]
         if opt.body_font and prof["cs_font"] and prof["cs_font"].lower() != opt.body_font.lower():
             out.append(Finding("F202", "warn", f"body Persian font is «{prof['cs_font']}», expected «{opt.body_font}»",
                                "The expected font was given with --body-font.", "Change the complex-script font of the Normal style.",
@@ -210,7 +208,6 @@ def analyse(doc: Document, opt: Optional[Options] = None) -> List[Finding]:
                                count=len(minority), paragraphs=[p.idx + 1 for p in minority][:30],
                                examples=[{"where": where(p), "before": _zw(p.text[:40]), "after": "font: " + ", ".join(sorted({r.rpr.get('cs_font') or '-' for r in persian_runs(p)}))} for p in minority[:3]]))
         # sizes
-        szs = prof["_szcs"]
         exp_hp = int(round(opt.body_size * 2)) if opt.body_size else prof["szcs"]
         nosz = [p for p in body if any(r.rpr.get("szcs") is None for r in persian_runs(p))]
         if nosz:
@@ -249,7 +246,6 @@ def analyse(doc: Document, opt: Optional[Options] = None) -> List[Finding]:
                                "Review → Language → set «Persian» for the Normal style.", count=len(nolang),
                                paragraphs=[p.idx + 1 for p in nolang][:30], where=f"{len(nolang)} paragraphs: " + ", ".join(f"{k} ×{v}" for k, v in ex.most_common(3))))
         # line spacing and alignment
-        lc = prof["_line"]
         def ln(k):
             return "auto" if k[0] is None else (f"{k[0] / 240:g}× " + (k[1] or "auto") if (k[1] in (None, "auto")) else f"{k[0] / 20:g} pt {k[1]}")
         mode_line = prof["line"]
@@ -359,7 +355,6 @@ def analyse(doc: Document, opt: Optional[Options] = None) -> List[Finding]:
                                "Hand-typed numbers do not renumber when a figure is added, and Word cannot build a list of figures from them.",
                                "Insert → Caption (or References → Insert Caption) so the number is a SEQ field.", count=len(manual), paragraphs=[p.idx + 1 for p in manual][:30]))
         tbl_by_last = {t.last_para: t for t in doc.tables}
-        tbl_by_first = {t.first_para: t for t in doc.tables}
         wrong = []
         for p, m in caps:
             lab = m.group(1).lower()
