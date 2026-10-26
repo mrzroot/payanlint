@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import zipfile
 from collections import Counter
-from typing import Dict, Iterable, Optional
+from typing import Dict, Iterable
 
 from . import textrules as tr
 from .docxedit import edit_paragraph, paragraph_spans

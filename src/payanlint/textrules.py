@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Callable, Dict, Iterable, List, Optional, Set
+from typing import Dict, Iterable, List, Optional
 
 ZWNJ = "\u200c"
 PL = "\u0621-\u063A\u0641-\u064A\u067E\u0686\u0698\u06A9\u06AF\u06CC"       # Persian/Arabic-script letters
@@ -151,7 +151,7 @@ def scan(T: str, digits: str = "keep", persian: Optional[bool] = None) -> List[F
     if m:
         add("P125", "spaces", m.start(), m.end(), "", "paragraph indented with spaces/tabs (use a first-line indent)", auto=False)
     # --- quotes
-    for m in re.finditer(rf'"(?=\S)([^"\n]{{2,}}?)(?<=\S)"', T):
+    for m in re.finditer(r'"(?=\S)([^"\n]{2,}?)(?<=\S)"', T):
         if re.search(f"[{PL}]", m.group(1)):
             add("P126", "quotes", m.start(), m.start() + 1, "«", "straight quote around Persian text")
             add("P126", "quotes", m.end() - 1, m.end(), "»", "straight quote around Persian text")
