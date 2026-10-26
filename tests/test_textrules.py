@@ -1,3 +1,4 @@
+"""Typing rules (P-codes) on plain strings: what is detected, what is auto-fixed, and what must be left alone."""
 import random
 
 import pytest
@@ -8,6 +9,7 @@ ZW = "\u200c"
 
 
 def fixed(T, digits="keep"):
+    """Apply the automatic fixes to *T* until nothing is left to fix (a fix can expose another)."""
     for _ in range(5):
         fx = [f for f in tr.scan(T, digits=digits) if f.auto]
         if not fx:
@@ -17,6 +19,7 @@ def fixed(T, digits="keep"):
 
 
 def codes(T, digits="keep"):
+    """The set of rule codes raised on the string *T*."""
     return {f.code for f in tr.scan(T, digits=digits)}
 
 
